@@ -409,7 +409,13 @@ public class DefaultOIDCClaimsCallbackHandler implements CustomClaimsCallbackHan
                     + fullQualifiedUsername);
             return userClaimsMappedToOIDCDialect;
         }
-
+        if(fullQualifiedUsername.startsWith("FEDERATED")) {
+            log.info("######################################");
+            log.info("Patch by Gianluca Fares per mapping FEDERATED users to local - Powered by Indra");
+        	fullQualifiedUsername = "PRIMARY"+fullQualifiedUsername.substring("FEDERATED".length());
+        	log.info("New federated user is " + fullQualifiedUsername);
+        	log.info("######################################");
+        }
         List<String> requestedClaimUris = getRequestedClaimUris(requestClaimMappings);
         Map<String, String> userClaims = getUserClaimsInLocalDialect(fullQualifiedUsername, realm, requestedClaimUris);
 
